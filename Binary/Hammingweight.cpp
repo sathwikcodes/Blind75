@@ -1,30 +1,37 @@
-// Write a function that takes the binary representation of a positive integer and returns the number of
-//     set bits
-//         it
-//         has(also known as the Hamming weight)
-//             .
+#include <iostream>
 
-//     Example 1 :
-
-//     Input : n = 11
-
-//                 Output : 3
-
-//                 Explanation :
-
-//     The input binary string 1011 has a total of three set bits.
+/***************************************** Solution *****************************************/
 
 class Solution
 {
 public:
+    // Function to calculate the number of set bits (Hamming weight) in an integer n
     int hammingWeight(int n)
     {
-        int count = 0;
+        int count = 0; // Initialize count to store the number of set bits
+
+        // Iterate until all bits of n are processed (n becomes zero)
         while (n != 0)
         {
-            count += n & 1;
-            n >>= 1;
+            count += n & 1; // Check if the least significant bit of n is set (1)
+            n >>= 1;        // Right shift n by 1 bit to check the next bit
         }
-        return count;
+
+        return count; // Return the total count of set bits in n
     }
 };
+
+/***************************************** Main Function *****************************************/
+
+int main()
+{
+    int n = 11; // Example input
+
+    Solution sol;                      // Create an instance of the Solution class
+    int result = sol.hammingWeight(n); // Calculate the number of set bits in n
+
+    // Output the result
+    std::cout << "Number of set bits in " << n << " (binary representation): " << result << std::endl;
+
+    return 0; // Exit the program
+}

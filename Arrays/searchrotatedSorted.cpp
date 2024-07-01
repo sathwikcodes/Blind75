@@ -1,3 +1,17 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/***************************************** Problem Statement *****************************************/
+// Given a rotated sorted array `nums` of distinct integers and a target `target`, return the index of `target` if it is in the array, or -1 if it is not.
+// You must write an algorithm with O(log N) runtime complexity.
+
+/***************************************** Approach: Binary Search with Rotated Sorted Array *****************************************/
+// This approach uses binary search to efficiently find the target in a rotated sorted array.
+// Time Complexity: O(log N), where N is the size of the array `nums`.
+// Space Complexity: O(1), as we use only constant extra space.
+
 class Solution
 {
 public:
@@ -51,17 +65,23 @@ public:
     }
 };
 
-// Example : arr = [ 4, 5, 6, 7, 0, 1, 2 ], k = 1 Let's go through the code execution step-by-step for this example.
+/***************************************** Main Function *****************************************/
+int main()
+{
+    vector<int> nums = {4, 5, 6, 7, 0, 1, 2};
+    int target = 1;
 
-//                                          Initial State : arr = [ 4, 5, 6, 7, 0, 1, 2 ] n = 7 k = 1 low = 0 high = 6 First Iteration : Calculate mid = (0 + 6) / 2 = 3 arr[mid] = arr[3] = 7 Since arr[mid] != k,
-//           we proceed to check the sorted part.Check if the left part is sorted : arr[low] <= arr[mid] = > 4 <= 7, which is true.Check if k is in the left sorted part : arr[low] <= k &&k <= arr[mid] = > 4 <= 1 && 1 <= 7, which is false.So, we move to the right part : low = mid + 1 = 4 Second Iteration : Calculate mid = (4 + 6) / 2 = 5 arr[mid] = arr[5] = 1 Since arr[mid] == k, we return mid = 5 The target element 1 is found at index 5.
+    Solution sol;
+    int result = sol.search(nums, target);
 
-//                                                                                                                                                                                                                                                                                                                                                                                            Visual Breakdown Here’s a visual breakdown of each iteration :
+    if (result != -1)
+    {
+        cout << "Target " << target << " found at index " << result << endl;
+    }
+    else
+    {
+        cout << "Target " << target << " not found in the array" << endl;
+    }
 
-//     First Iteration :
-
-//     Array : [ 4, 5, 6, 7, 0, 1, 2 ] Indices : 0 1 2 3 4 5 6 Low : 0,
-//           High : 6, Mid : 3 Middle element : 7 The left part[4, 5, 6, 7] is sorted.1 is not in[4, 5, 6, 7], so move to the right part.New Low : 4 Second Iteration :
-
-//     Array : [ 4, 5, 6, 7, 0, 1, 2 ] Indices : 0 1 2 3 4 5 6 Low : 4,
-//           High : 6, Mid : 5 Middle element : 1 1 is found at index 5
+    return 0;
+}

@@ -1,22 +1,21 @@
-// Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+/***************************************** Naive Approach *****************************************/
 
- 
+/*
+    Use a loop to iterate through each number from 0 to n.
+    Count the number of 1s in its binary representation using repeated division by 2.
+    Time Complexity: O(n * sizeof(integer)), where sizeof(integer) is typically constant.
+*/
 
-// Example 1:
+/***************************************** Solution *****************************************/
 
-// Input: n = 2
-// Output: [0,1,1]
-// Explanation:
-// 0 --> 0
-// 1 --> 1
-// 2 --> 10
+#include <vector>
 
 class Solution
 {
 public:
-    vector<int> countBits(int n)
+    std::vector<int> countBits(int n)
     {
-        vector<int> result;
+        std::vector<int> result;
         for (int i = 0; i <= n; i++)
         {
             int num = i;
@@ -32,64 +31,76 @@ public:
     }
 };
 
-// Example: Counting Bits for i = 13
-// Let's use i = 13 (binary 1101) as an example to illustrate how this works:
+/***************************************** Complexity Analysis *****************************************/
 
-// Initialization:
+/*
+    Time Complexity: O(n * sizeof(integer)), where sizeof(integer) is typically constant.
+    Space Complexity: O(n), for storing the result vector.
+*/
+/***************************************** Better Approach *****************************************/
 
-// num = 13 (binary 1101)
-// sum = 0
-// First Iteration:
+/*
+    Use a previously computed result to optimize counting bits.
+    If `i` is even, bits count is the same as `i/2`.
+    If `i` is odd, bits count is `i/2` + 1.
+    Time Complexity: O(n)
+*/
 
-// num % 2 = 13 % 2 = 1 (the least significant bit is 1)
-// sum = sum + 1 = 0 + 1 = 1
-// num = num / 2 = 13 / 2 = 6 (binary 0110)
-// Second Iteration:
+/***************************************** Solution *****************************************/
 
-// num % 2 = 6 % 2 = 0 (the least significant bit is 0)
-// sum = sum + 0 = 1 + 0 = 1
-// num = num / 2 = 6 / 2 = 3 (binary 0011)
-// Third Iteration:
-
-// num % 2 = 3 % 2 = 1 (the least significant bit is 1)
-// sum = sum + 1 = 1 + 1 = 2
-// num = num / 2 = 3 / 2 = 1 (binary 0001)
-// Fourth Iteration:
-
-// num % 2 = 1 % 2 = 1 (the least significant bit is 1)
-// sum = sum + 1 = 2 + 1 = 3
-// num = num / 2 = 1 / 2 = 0 (binary 0000)
-// At this point, the while loop exits because num is now 0.
-
-// Summary
-// First Iteration: num = 13 (1101), sum = 1
-// Second Iteration: num = 6 (0110), sum = 1
-// Third Iteration: num = 3 (0011), sum = 2
-// Fourth Iteration: num = 1 (0001), sum = 3
-// The final value of sum is 3, which correctly represents the number of 1 bits in the binary representation of 13 (i.e., 1101).
+#include <vector>
 
 class Solution
 {
 public:
-    vector<int> countBits(int n)
+    std::vector<int> countBits(int n)
     {
-
-        // n+1 as we are going to count from 0 to n
-        vector<int> t(n + 1);
-
-        // t[0] will be 0 beacuse 0 has count of set bit is 0;
-        t[0] = 0;
-
-        // we can compute current set bit count using previous count
-        // as x/2 in O(1) time
-
-        // i%2 will be 0 for even number ans 1 for odd number
-
+        std::vector<int> result(n + 1);
+        result[0] = 0;
         for (int i = 1; i <= n; ++i)
-            t[i] = t[i / 2] + i % 2;
-
-        return t;
+        {
+            result[i] = result[i >> 1] + (i & 1);
+        }
+        return result;
     }
 };
 
-// for o(N)
+/***************************************** Complexity Analysis *****************************************/
+
+/*
+    Time Complexity: O(n), as each number up to n is processed once.
+    Space Complexity: O(n), for storing the result vector.
+*/
+/***************************************** Optimal Approach *****************************************/
+
+/*
+    Use dynamic programming to compute the number of bits efficiently.
+    For each number `i`, the number of 1s in its binary form is `dp[i] = dp[i & (i - 1)] + 1`.
+    Time Complexity: O(n)
+*/
+
+/***************************************** Solution *****************************************/
+
+#include <vector>
+
+class Solution
+{
+public:
+    std::vector<int> countBits(int n)
+    {
+        std::vector<int> dp(n + 1);
+        dp[0] = 0;
+        for (int i = 1; i <= n; ++i)
+        {
+            dp[i] = dp[i & (i - 1)] + 1;
+        }
+        return dp;
+    }
+};
+
+/***************************************** Complexity Analysis *****************************************/
+
+/*
+    Time Complexity: O(n), as each number up to n is processed once.
+    Space Complexity: O(n), for storing the dp array.
+*/

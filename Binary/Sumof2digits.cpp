@@ -1,5 +1,3 @@
-// Given two integers a and b, return the sum of the two integers without using the operators + and-.
-
 class Solution
 {
 public:
@@ -7,10 +5,10 @@ public:
     {
         while (b != 0)
         {
-            int carry = a & b;
-            a = a ^ b;
-            b = carry << 1;
+            int carry = a & b; // Calculate the carry using bitwise AND
+            a = a ^ b;         // Calculate the sum without considering carry using bitwise XOR
+            b = carry << 1;    // Shift the carry to the left to prepare for the next addition iteration
         }
-        return a;
+        return a; // Return the final sum
     }
 };

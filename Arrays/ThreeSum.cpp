@@ -1,5 +1,27 @@
-//optimal solution using two pointer approach
+/***************************************** Problem Statement *****************************************/
 
+/*
+    Given an array nums of n integers, find all unique triplets in the array which gives the sum of zero.
+    Note: The solution set must not contain duplicate triplets.
+
+    Example:
+    Input: nums = [-1, 0, 1, 2, -1, -4]
+    Output: [[-1, -1, 2], [-1, 0, 1]]
+
+    Explanation: The solution set contains two triplets [-1, 0, 1] and [-1, -1, 2].
+*/
+
+/***************************************** Approach *****************************************/
+
+/*
+    1. Sort the input array nums.
+    2. Iterate through the array, considering each element as the potential first element of a triplet.
+    3. Use two-pointer technique to find pairs that sum to -nums[i].
+    4. Avoid duplicates in the result by skipping duplicate elements and adjusting pointers appropriately.
+    5. Return the list of unique triplets that sum up to zero.
+*/
+
+/***************************************** Solution *****************************************/
 
 class Solution
 {
@@ -59,7 +81,25 @@ public:
                 }
             }
         }
+
         // Step 5: Return the list of triplets
         return ans;
     }
 };
+
+/***************************************** Example Usage *****************************************/
+
+/*
+    Example:
+    vector<int> nums = {-1, 0, 1, 2, -1, -4};
+    Solution sol;
+    vector<vector<int>> result = sol.threeSum(nums);
+    // Output: [[-1, -1, 2], [-1, 0, 1]]
+*/
+
+/***************************************** Complexity Analysis *****************************************/
+
+/*
+    Time Complexity: O(N^2), where N is the size of the input array nums. Sorting takes O(N log N) time, and each iteration through the array using two pointers takes O(N).
+    Space Complexity: O(N), for storing the output vector of triplets.
+*/

@@ -1,87 +1,136 @@
-// Question : Example 1 :
+/***************************************** Problem Statement *****************************************/
 
-//     Input : nums = [ 2, 7, 11, 15 ],
-//             target = 9 Output : [ 0, 1 ] Explanation : Because nums[0] + nums[1] == 9, we return [ 0, 1 ].
+/*
+    Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+    You may assume that each input would have exactly one solution, and you may not use the same element twice.
+    You can return the answer in any order.
 
-// Naive Approach:
+    Example:
+    Input: nums = [2, 7, 11, 15], target = 9
+    Output: [0, 1]
+    Explanation: nums[0] + nums[1] == 9, so we return [0, 1].
+*/
+
+/***************************************** Naive Approach *****************************************/
+
+/*
+    Use a nested loop to check every pair of numbers in the array.
+    Time Complexity: O(n^2)
+*/
+
+/***************************************** Solution *****************************************/
+
+#include <vector>
 
 class Solution
 {
 public:
-    vector<int> twoSum(vector<int> &nums, int target)
+    std::vector<int> twoSum(std::vector<int> &nums, int target)
     {
-        vector<int> result;
-        int n = nums.size();
+        int n = nums.size(); // Get the size of the input vector `nums`
+
+        // Iterate through the vector with two nested loops
         for (int i = 0; i < n; i++)
         {
             for (int j = i + 1; j < n; j++)
             {
+                // Check if the sum of the current pair equals the target
                 if (nums[i] + nums[j] == target)
                 {
-                    result.push_back(i);
-                    result.push_back(j);
-                    return result;
+                    return {i, j}; // Return the indices of the two numbers
                 }
             }
         }
+
+        // If no such pair is found, return {-1, -1}
         return {-1, -1};
     }
 };
 
-// Time Complexity: O(n^2)
+/***************************************** Example Usage *****************************************/
 
-// Better Approach :
+/*
+    Example:
+    vector<int> nums = {2, 7, 11, 15};
+    int target = 9;
+    Solution sol;
+    vector<int> result = sol.twoSum(nums, target);
+    // Output: [0, 1]
+*/
+
+/***************************************** Complexity Analysis *****************************************/
+
+/*
+    Time Complexity: O(n^2), due to the nested loops iterating through all pairs.
+    Space Complexity: O(1), as no extra space is used other than the input and output vectors.
+*/
+/***************************************** Better Approach *****************************************/
+
+/*
+    Use a hash map to store each number and its index as we iterate through the array.
+    For each number `num` in the array, compute `diff = target - num`.
+    Check if `diff` exists in the hash map.
+    Time Complexity: O(n), Space Complexity: O(n)
+*/
+
+/***************************************** Solution *****************************************/
+
+#include <vector>
+#include <unordered_map>
 
 class Solution
 {
 public:
-    vector<int> twoSum(vector<int> &nums, int target)
+    std::vector<int> twoSum(std::vector<int> &nums, int target)
     {
-        map<int, int> mpp;   // Create a map to store numbers and their indices
-        int n = nums.size(); // Get the size of the input vector
-        for (int i = 0; i < n; i++)
-        {                            // Iterate through the vector
-            int num = nums[i];       // Get the current number
+        std::unordered_map<int, int> numMap; // Map to store numbers and their indices
+
+        // Iterate through the vector
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            int num = nums[i];       // Current number in the vector
             int diff = target - num; // Calculate the difference needed to reach the target
-            if (mpp.find(diff) != mpp.end())
-            {                          // Check if the difference is already in the map
-                return {mpp[diff], i}; // If found, return the indices of the complement and the current number
+
+            // Check if the difference exists in the map
+            if (numMap.find(diff) != numMap.end())
+            {
+                return {numMap[diff], i}; // Return indices of the current number and its complement
             }
-            mpp[num] = i; // Add the current number and its index to the map
+
+            numMap[num] = i; // Add current number and its index to the map
         }
-        return {-1, -1}; // Return {-1, -1} if no solution is found
+
+        // If no such pair is found, return {-1, -1}
+        return {-1, -1};
     }
 };
 
+/***************************************** Example Usage *****************************************/
 
-// approach with example :
-First Iteration(i = 0) :
+/*
+    Example:
+    vector<int> nums = {2, 7, 11, 15};
+    int target = 9;
+    Solution sol;
+    vector<int> result = sol.twoSum(nums, target);
+    // Output: [0, 1]
+*/
 
-                         cpp Copy code
-                         int num = nums[i]; // num = nums[0] = 2
-int diff = target - num;                    // diff = 9 - 2 = 7
-if (mpp.find(diff) != mpp.end())
-{ // mpp.find(7) -> not found since mpp is empty
-    // This block is skipped
-}
-mpp[num] = i; // mpp[2] = 0
-// Now mpp = {2: 0}
-Second Iteration(i = 1) :
+/***************************************** Complexity Analysis *****************************************/
 
-                          cpp Copy code
-                          int num = nums[i]; // num = nums[1] = 7
-int diff = target - num;                     // diff = 9 - 7 = 2
-if (mpp.find(diff) != mpp.end())
-{                          // mpp.find(2) -> found, since 2 is in the map
-    return {mpp[diff], i}; // return {mpp[2], 1} -> return {0, 1}
-}
-mpp[num] = i; // This line is not executed because we already returned the result
+/*
+    Time Complexity: O(n), as each lookup and insertion operation in the hash map takes average O(1) time.
+    Space Complexity: O(n), for the hash map storing up to `n` elements.
+*/
+/***************************************** Optimal Approach *****************************************/
 
+/*
+    Sort the array and use two pointers to find two numbers that add up to the target.
+    Time Complexity: O(n log n) for sorting + O(n) for two-pointer traversal = O(n log n)
+    Space Complexity: O(n), for storing the original indices.
+*/
 
-
-// Time Complexity: O(n)
-
-// Optimal Approach:
+/***************************************** Solution *****************************************/
 
 #include <vector>
 #include <algorithm>
@@ -92,7 +141,7 @@ public:
     std::vector<int> twoSum(std::vector<int> &nums, int target)
     {
         int n = nums.size();                            // Get the size of the input vector `nums`
-        std::vector<std::pair<int, int>> originalindex; // Create a vector to store pairs of (value, original index)
+        std::vector<std::pair<int, int>> originalindex; // Vector of pairs to store (value, original index)
 
         // Fill the `originalindex` vector with pairs of (value, original index)
         for (int i = 0; i < n; i++)
@@ -134,27 +183,20 @@ public:
     }
 };
 
-// Two - Pointer Technique :
+/***************************************** Example Usage *****************************************/
 
-//     First Iteration : cpp
-//                           Copy code int left = 0;                 // left points to {2, 0}
-// int right = n - 1;                                                // right points to {15, 3}
-// int sum = originalindex[left].first + originalindex[right].first; // sum = 2 + 15 = 17
-// if (sum > target)
-// {
-//     right--; // Move the right pointer to the left
-// }
-// // Now, right points to {11, 2}
-// Second Iteration : cpp
-//                        Copy code int sum = originalindex[left].first + originalindex[right].first; // sum = 2 + 11 = 13
-// if (sum > target)
-// {
-//     right--; // Move the right pointer to the left
-// }
-// // Now, right points to {7, 1}
-// Third Iteration : cpp
-//                       Copy code int sum = originalindex[left].first + originalindex[right].first; // sum = 2 + 7 = 9
-// if (sum == target)
-// {
-//     return {originalindex[left].second, originalindex[right].second}; // Return {0, 1}
-// }
+/*
+    Example:
+    vector<int> nums = {2, 7, 11, 15};
+    int target = 9;
+    Solution sol;
+    vector<int> result = sol.twoSum(nums, target);
+    // Output: [0, 1]
+*/
+
+/***************************************** Complexity Analysis *****************************************/
+
+/*
+    Time Complexity: O(n log n) for sorting + O(n) for two-pointer traversal, resulting in O(n log n) overall.
+    Space Complexity: O(n), for the vector of pairs `originalindex`.
+*/
